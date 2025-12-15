@@ -8,9 +8,7 @@ Total floors: 0 (Ground) to N
 
 Number of lifts: L
 
-Each lift has:
-
-Current floor
+Each lift has: Current floor
 
 Direction: UP, DOWN, IDLE
 
