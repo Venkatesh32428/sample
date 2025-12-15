@@ -1,0 +1,265 @@
+Problem Constraints (Design Rules)
+
+You can clearly mention these before writing code.
+
+Building Constraints
+
+Total floors: 0 (Ground) to N
+
+Number of lifts: L
+
+Each lift has:
+
+Current floor
+
+Direction: UP, DOWN, IDLE
+
+Capacity limit (optional constraint)
+
+Each floor can generate:
+
+Up request
+
+Down request
+
+Lift Movement Constraints
+
+Lift moves one floor at a time
+
+Time per floor = constant (say 1 unit)
+
+Door open/close time can be ignored or treated as constant
+
+A lift cannot change direction until all requests in that direction are served
+
+Idle lifts can move in any direction
+
+Allocation Constraints
+
+Prefer a lift that:
+
+Is already moving towards the requested floor
+
+Is closest to the request
+
+If no moving lift is suitable:
+
+Assign the nearest idle lift
+
+If multiple lifts qualify:
+
+Choose the one with minimum distance
+
+If distance is same:
+
+Choose lift with lowest lift ID
+
+A lift should not exceed its capacity (if considered)
+
+2. Assumptions (Important for Interview)
+
+Requests are external (from floors), not inside lift
+
+All lifts start at floor 0 initially (unless specified)
+
+Only one request is processed at a time (simplified version)
+
+No emergency / maintenance mode
+
+3. Input Format (Logical)
+
+Each request contains:
+
+request_floor
+
+request_direction (UP / DOWN)
+
+Each lift contains:
+
+lift_id
+
+current_floor
+
+current_direction
+
+4. Test Cases (Very Important)
+✅ Test Case 1: Single Lift, Simple Request
+
+Lifts:
+
+Lift 1 → floor 0, IDLE
+
+Request:
+
+Floor 5, UP
+
+Expected Result:
+
+Lift 1 is assigned
+
+Lift moves from 0 → 5
+
+✅ Test Case 2: Multiple Lifts, One Idle Closest
+
+Lifts:
+
+Lift 1 → floor 2, IDLE
+
+Lift 2 → floor 8, IDLE
+
+Request:
+
+Floor 5, UP
+
+Expected Result:
+
+Lift 1 assigned (distance = 3 vs 3? → lower ID)
+
+✅ Test Case 3: Lift Already Moving in Same Direction
+
+Lifts:
+
+Lift 1 → floor 2, UP
+
+Lift 2 → floor 1, IDLE
+
+Request:
+
+Floor 4, UP
+
+Expected Result:
+
+Lift 1 assigned (already moving UP and will pass floor 4)
+
+✅ Test Case 4: Lift Moving Opposite Direction
+
+Lifts:
+
+Lift 1 → floor 6, DOWN
+
+Lift 2 → floor 2, IDLE
+
+Request:
+
+Floor 4, UP
+
+Expected Result:
+
+Lift 2 assigned
+
+Lift 1 ignored (wrong direction)
+
+✅ Test Case 5: Multiple Moving Lifts, Choose Nearest
+
+Lifts:
+
+Lift 1 → floor 1, UP
+
+Lift 2 → floor 3, UP
+
+Lift 3 → floor 10, IDLE
+
+Request:
+
+Floor 5, UP
+
+Expected Result:
+
+Lift 2 assigned (closest moving lift)
+
+✅ Test Case 6: All Lifts Busy, Queue Request
+
+Lifts:
+
+Lift 1 → floor 8, UP
+
+Lift 2 → floor 6, DOWN
+
+Request:
+
+Floor 4, DOWN
+
+Expected Result:
+
+Request queued
+
+Served when a lift becomes free or direction matches
+
+✅ Test Case 7: Same Distance, Tie Break
+
+Lifts:
+
+Lift 1 → floor 3, IDLE
+
+Lift 2 → floor 7, IDLE
+
+Request:
+
+Floor 5, UP
+
+Expected Result:
+
+Both distance = 2
+
+Lift 1 assigned (lower ID)
+
+✅ Test Case 8: Request at Same Floor
+
+Lifts:
+
+Lift 1 → floor 5, IDLE
+
+Request:
+
+Floor 5, UP
+
+Expected Result:
+
+Lift 1 assigned immediately
+
+No movement needed
+
+✅ Test Case 9: Capacity Constraint (Optional)
+
+Lifts:
+
+Lift 1 → floor 2, UP, FULL
+
+Lift 2 → floor 0, IDLE, NOT FULL
+
+Request:
+
+Floor 3, UP
+
+Expected Result:
+
+Lift 2 assigned
+
+Lift 1 skipped due to capacity
+
+✅ Test Case 10: No Lift Available
+
+Lifts:
+
+All lifts under maintenance
+
+Request:
+
+Floor 6, UP
+
+Expected Result:
+
+Request rejected or queued with message:
+"No lift available"
+
+5. Interview Tip ⭐
+
+When explaining:
+
+Start with constraints
+
+Explain selection priority
+
+Walk through one test case verbally
+
+Then say: “Based on these test cases, we can implement the logic.”
